@@ -1,33 +1,42 @@
 {
-  "name": "ongoku-cli",
+  "name": "@ongoku/ongoku-cli",
   "version": "0.1.0",
   "description": "CLI tool for interacting with Ongoku projects",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "bin": {
-    "ongoku": "./dist/index.js"
-  },
-  "scripts": {
-    "build": "tsc",
-    "watch": "tsc -w",
-    "test": "jest",
-    "prepublishOnly": "npm run build",
-    "start": "node dist/index.js",
-    "dev": "ts-node src/index.ts"
-  },
-  "files": [
-    "dist",
-    "README.md",
-    "LICENSE"
-  ],
   "keywords": [
     "ongoku",
     "cli",
     "development",
     "workflow"
   ],
-  "author": "Ongoku Team",
+  "homepage": "https://github.com/build-ongoku/ongoku-cli#readme",
+  "bugs": {
+    "url": "https://github.com/build-ongoku/ongoku-cli/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/build-ongoku/ongoku-cli.git"
+  },
   "license": "MIT",
+  "author": "Ongoku Team",
+  "type": "commonjs",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "ongoku": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "echo \"No tests specified yet\"",
+    "prepublishOnly": "npm run build",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts"
+  },
   "dependencies": {
     "axios": "^1.6.0",
     "chalk": "^4.1.2",
@@ -43,11 +52,8 @@
   },
   "devDependencies": {
     "@types/inquirer": "^8.2.5",
-    "@types/jest": "^29.5.0",
     "@types/js-yaml": "^4.0.5",
     "@types/node": "^20.0.0",
-    "jest": "^29.5.0",
-    "ts-jest": "^29.1.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4"
   },

@@ -67,7 +67,7 @@ export function loginCommand(program: Command): void {
           type: 'input',
           name: 'authCode',
           message: 'After logging in, you will receive an auth code. Please paste it here:',
-          validate: (input) => input.length > 0 || 'Auth code is required'
+          validate: (input: string) => input.length > 0 || 'Auth code is required'
         }]);
 
         // 3. Exchange auth code for API token
