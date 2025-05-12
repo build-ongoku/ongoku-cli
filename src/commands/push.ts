@@ -111,13 +111,21 @@ export function pushCommand(program: Command): void {
         }
         
         // 6. Get Git credentials
-        const gitCredentials = await getGitCredentials(api, project.id, spinner);
+        const gitCredentials = await getGitCredentials(api, project.id, spinner, git);
         if (!gitCredentials) return null;
         
-        const { token, repo_url } = gitCredentials;
-        spinner.succeed(chalk.green('Git credentials generated successfully'));
+        // If we're using cached credentials, we can skip the configuration
+        if (gitCredentials.reused) {
+          spinner.succeed(chalk.green('Using existing Git credentials'));
+        } else {
+          const { token, repo_url, expires_at } = gitCredentials.git_info;
+          spinner.succeed(chalk.green('Git credentials generated successfully'));
+          
+          // 7. Configure Git with token
+          await git.configureWithToken(token, repo_url, expires_at);
+        }
         
-        // 7. Check for changes
+        // Check for changes
         spinner.text = 'Checking for changes...'; 
         const status = await git.getStatus();
         
@@ -125,9 +133,6 @@ export function pushCommand(program: Command): void {
           spinner.info(chalk.blue('No changes to commit'));
           return null;
         }
-        
-        // 8. Configure Git with token
-        await git.configureWithToken(token, repo_url);
         
         // 9. Show what's being changed
         console.log(chalk.blue('\nChanges to be pushed:'));
