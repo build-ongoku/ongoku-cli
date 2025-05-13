@@ -3,14 +3,10 @@ import os from 'os';
 import path from 'path';
 import keytar from 'keytar';
 
-// Define constants with clear defaults - these can be overridden via CLI commands
-const DEFAULTS = {
-  API_URL: 'http://localhost:3000/api/cli',
-  SERVICE_NAME: 'ongoku-cli',
-  ACCOUNT_NAME: 'default'
-};
+// Default API URL - the single source of truth for the API endpoint
+const DEFAULT_API_URL = 'http://localhost:3000/api/cli';
 
-// Define configuration schema for type safety
+// Define configuration schema
 interface ConfigSchema {
   apiUrl: string;
   lastUpdateCheck?: number;
@@ -18,17 +14,22 @@ interface ConfigSchema {
   lastSync?: string;
 }
 
-// Create config instance with defaults
+// Create config instance
 export const config = new Conf<ConfigSchema>({
   projectName: 'ongoku-cli',
   defaults: {
-    apiUrl: DEFAULTS.API_URL,
+    apiUrl: DEFAULT_API_URL,
   }
 });
 
-// Constants for secure storage
-const SERVICE_NAME = DEFAULTS.SERVICE_NAME;
-const ACCOUNT_NAME = DEFAULTS.ACCOUNT_NAME;
+// Ensure the API URL is set to our default if not explicitly configured
+if (!config.has('apiUrl')) {
+  config.set('apiUrl', DEFAULT_API_URL);
+}
+
+// Service name for keytar
+const SERVICE_NAME = 'ongoku-cli';
+const ACCOUNT_NAME = 'default';
 
 // Auth token handling (secure storage)
 export const auth = {
@@ -85,5 +86,7 @@ export const auth = {
   }
 };
 
-// Project data caching - define the default location for cache files
-export const cacheDir = path.join(os.homedir(), '.ongoku', 'cache');
+// Project data caching
+const CACHE_DIR = path.join(os.homedir(), '.ongoku', 'cache');
+
+export const cacheDir = CACHE_DIR;

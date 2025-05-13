@@ -70,19 +70,13 @@ export function pullCommand(program: Command): void {
         spinner.succeed(chalk.green(`Found project: ${project.name}`));
         
         // 5. Get Git credentials
-        const gitCredentials = await getGitCredentials(api, project.id, spinner, git);
+        const gitCredentials = await getGitCredentials(api, project.id, spinner);
         if (!gitCredentials) return null;
         
-        // If we're using cached credentials, we can skip the configuration
-        if (gitCredentials.reused) {
-          spinner.succeed(chalk.green('Using existing Git credentials'));
-        } else {
-          const { token, repo_url, expires_at } = gitCredentials.git_info;
-          spinner.succeed(chalk.green('Git credentials generated successfully'));
-          
-          // Configure Git with token
-          await git.configureWithToken(token, repo_url, expires_at);
-        }
+        const { token, repo_url } = gitCredentials;
+        
+        // 6. Configure Git and pull changes
+        await git.configureWithToken(token, repo_url);
         
         spinner.text = 'Pulling latest changes...';
         const pullSuccess = await git.pull();

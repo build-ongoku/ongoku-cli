@@ -7,7 +7,6 @@ import ora from 'ora';
 export class GitClient {
   private git: SimpleGit;
   private projectDir: string;
-  private tokenExpiry: number | null = null;
 
   constructor(projectDir: string) {
     this.projectDir = projectDir;
@@ -188,11 +187,8 @@ export class GitClient {
 
   /**
    * Configure Git with token authentication
-   * @param token GitHub PAT token
-   * @param repoUrl Repository URL
-   * @param expiresAt Optional timestamp when the token expires
    */
-  async configureWithToken(token: string, repoUrl: string, expiresAt?: number): Promise<boolean> {
+  async configureWithToken(token: string, repoUrl: string): Promise<boolean> {
     try {
       // Extract the repository owner and name from the URL
       // Example: https://github.com/build-ongoku/project-example
@@ -209,14 +205,6 @@ export class GitClient {
       // Configure Git to not store credentials in plaintext
       await this.git.addConfig('credential.helper', 'cache --timeout=3600');
       
-      // Store token expiration if provided
-      if (expiresAt) {
-        this.tokenExpiry = expiresAt;
-      } else {
-        // Default to 1 hour from now if not specified
-        this.tokenExpiry = Date.now() + 3600 * 1000;
-      }
-      
       // Verify the configuration worked
       const remotes = await this.git.getRemotes(true);
       const originRemote = remotes.find(remote => remote.name === 'origin');
@@ -231,17 +219,5 @@ export class GitClient {
       console.error('Error configuring git with token:', error);
       return false;
     }
-  }
-  
-  /**
-   * Check if the stored token is still valid
-   * @returns boolean indicating if token is still valid
-   */
-  isTokenValid(): boolean {
-    if (!this.tokenExpiry) return false;
-    
-    // Add a 5-minute buffer to avoid edge cases
-    const bufferMs = 5 * 60 * 1000; 
-    return Date.now() < (this.tokenExpiry - bufferMs);
   }
 }

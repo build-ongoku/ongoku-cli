@@ -185,22 +185,14 @@ export async function findProject(
  * @param api ApiClient instance
  * @param projectId Project ID
  * @param spinner Optional spinner to update
- * @param git Optional GitClient instance to check existing token validity
  * @returns Git credentials object or null if failed
  */
 export async function getGitCredentials(
   api: ApiClient,
   projectId: string,
-  spinner?: Ora,
-  git?: GitClient
+  spinner?: Ora
 ): Promise<any | null> {
   try {
-    // If we have a GitClient and it has a valid token, skip fetching new credentials
-    if (git && git.isTokenValid()) {
-      if (spinner) spinner.text = 'Using existing Git credentials...';  
-      return { success: true, valid: true, reused: true };
-    }
-    
     if (spinner) spinner.text = 'Generating Git credentials...';
     const tokenResponse = await api.getGitToken(projectId);
     
