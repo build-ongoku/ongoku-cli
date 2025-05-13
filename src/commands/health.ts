@@ -28,9 +28,8 @@ export function healthCommand(program: Command): void {
         
         // Display additional troubleshooting info
         console.log('\nTroubleshooting:');
-        console.log('1. Make sure the Ongoku server is running');
+        console.log('1. Make sure the Ongoku server is not down');
         console.log(`2. Check if the API URL is correct: ${config.get('apiUrl')}`);
-        console.log('3. Try updating the API URL with: ongoku config set apiUrl http://localhost:3001/api/cli');
       }
     });
 }

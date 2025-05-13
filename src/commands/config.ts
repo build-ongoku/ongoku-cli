@@ -1,6 +1,6 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
-import { config } from '../config/config';
+import { config, DEFAULT_API_URL } from '../config/config';
 
 export function configCommand(program: Command): void {
   const configCmd = program
@@ -49,8 +49,8 @@ export function configCommand(program: Command): void {
     .command('reset')
     .description('Reset configuration to defaults')
     .action(() => {
-      // Reset to the default API URL
-      config.set('apiUrl', 'http://localhost:3001/api/cli');
+      // Reset to the default API URL (imported from config.ts)
+      config.set('apiUrl', DEFAULT_API_URL);
       console.log(chalk.green('Configuration reset to defaults'));
       console.log(chalk.blue('API URL:'), config.get('apiUrl'));
     });

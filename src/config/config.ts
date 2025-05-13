@@ -4,7 +4,7 @@ import path from 'path';
 import keytar from 'keytar';
 
 // Default API URL - can be overridden by environment variable
-const DEFAULT_API_URL = process.env.ONGOKU_API_URL || 'http://ongoku.com/api/cli';
+export const DEFAULT_API_URL = process.env.ONGOKU_API_URL || 'http://ongoku.com/api/cli';
 
 // Define configuration schema
 interface ConfigSchema {

@@ -138,9 +138,8 @@ export class ApiClient {
    */
   async checkHealth() {
     try {
-      // Use the guaranteed public health endpoint that doesn't require auth
-      const baseUrl = this.baseUrl.replace('/api/cli', '');
-      const healthUrl = `${baseUrl}/cli-health`;
+      // Use the health endpoint within the CLI API namespace
+      const healthUrl = `${this.baseUrl}/health`;
       console.log(`Checking health at: ${healthUrl}`);
       const response = await axios.get(healthUrl);
       return response.data;
