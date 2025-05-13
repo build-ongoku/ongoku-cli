@@ -43,6 +43,14 @@ ongoku pull
 | `project` | Display current project details |
 | `list`/`ls` | List available projects |
 
+## Configuration
+
+The CLI can be configured using environment variables:
+
+| Environment Variable | Description | Default |
+|----------------------|-------------|--------|
+| `ONGOKU_API_URL` | Custom API endpoint URL | http://ongoku.com/api/cli |
+
 ## Development
 
 For CLI development:

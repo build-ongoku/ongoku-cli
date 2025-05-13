@@ -57,6 +57,7 @@ const checkForUpdates = async () => {
 // Show configured API endpoint in verbose mode
 if (process.argv.includes('--verbose') || process.argv.includes('-v')) {
   console.log(chalk.dim(`Using API endpoint: ${config.get('apiUrl')}`));
+  console.log(chalk.dim(`(Can be overridden with ONGOKU_API_URL environment variable)`));
 }
 
 // Run the CLI
